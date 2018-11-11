@@ -55,7 +55,7 @@ const quotes = [
     category: 'Friendship'
   },
   {
-    quote: `The ultimate failure of the United States will probably not derive from the problems we see or the conflicts we wage. It will more likely derive from our uncompromising belief in the things we consider unimpeachable and idealized and beautiful. Because every strength is a weakness, if given enough time.`,
+    quote: `The ultimate failure of the United States will likely derive from our uncompromising belief in the things we consider unimpeachable and idealized and beautiful.`,
     source: 'Chuck Klosterman',
     category: 'Literature',
     citation: `But What if We're Wrong`,
@@ -90,9 +90,6 @@ const getRandomQuote = (quotesArr) => {
   return randomQuote;
 }
 
-
-
-
 /***
   Create the `printQuote` function to:
    - call the `getRandomQuote` function and assign it to a variable.
@@ -105,22 +102,45 @@ const getRandomQuote = (quotesArr) => {
 
 const printQuote = () => {
   const randomQuote = getRandomQuote(quotes);
-  const quoteElement = document.getElementById('quote');
-  const sourceElement = document.getElementById('source');
-  quoteElement.innerHTML = randomQuote.quote;
-  sourceElement.textContent = randomQuote.source;
+  const quoteBox = document.getElementById('quote-box');
+  const quote = `<p id="quote" class="quote">${randomQuote.quote}</p>`;
+  const source = `<p id="source" class="source">${randomQuote.source}`;
 
-  if (randomQuote.citation) {
-    const citationElement = document.getElementById('source').querySelectorAll('citation');
-    citationElement.innerText = randomQuote.citation;
+  if (randomQuote.category) {
+    const category = document.getElementById('category');
+    category.innerHTML = randomQuote.category;
   }
-  // if (randomQuote.year) {
-  //   const yearElement = document.getElementById('source').childNodes[0];
-  //   yearElement.innerHTML = randomQuote.year;
-  // }
+
+  if (randomQuote.citation && randomQuote.year) {
+    const citation = `<span class="citation">${randomQuote.citation}</span>`;
+    const year = `<span class="year">${randomQuote.year}</span>`;
+    quoteBox.innerHTML = quote + source + citation + year + '</p>';
+  } else {
+    quoteBox.innerHTML = quote + source + '</p>';
+  }
+
+  // Starts the timer to refresh page after 20 seconds.
+  randomizeColor();
+  window.setTimeout(printQuote, 20000);
 
 }
 
+// Changes the background color when quote changes.
+const randomizeColor = () => {
+  function randomNum() {
+    return Math.floor(Math.random() * 256);
+  }
+
+  let red = randomNum();
+  let green = randomNum();
+  let blue = randomNum();
+  let rgb = `rgb(${red},${green},${blue})`;
+
+  document.body.style.background = rgb;
+  document.getElementById('loadQuote').background = rgb;
+}
+
+// Changes the quote after 20 seconds.
 
 
 /***
@@ -132,5 +152,8 @@ const printQuote = () => {
 
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
+
+// Page will open with a quote.
+printQuote();
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
