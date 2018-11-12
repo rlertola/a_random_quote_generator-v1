@@ -76,7 +76,7 @@ const printQuote = () => {
   // Stop timer so it can start fresh at the bottom.
   stopTimer();
 
-  // Sets the quote and source on the page since all items them.
+  // Sets the quote and source on the page since all items have them.
   const randomQuote = getRandomQuote(quotes);
   const quoteBox = document.getElementById('quote-box');
   const quote = `<p id="quote" class="quote">${randomQuote.quote}</p>`;
