@@ -3,19 +3,6 @@ Treehouse Techdegree:
 FSJS project 1 - A Random Quote Generator
 ******************************************/
 
-// Study guide for this project - https://drive.google.com/file/d/1s5grutGuQFwJcQP8bFwEI69Q8FCkGdDk/view?usp=sharing
-
-
-/***
-  Create the array of quote objects and name it `quotes`.
-  Add at least five quote objects to the `quotes` array.
-  Give each quote object a `quote` and `source` property.
-
-  Recommended:
-    - Add at least one `year` and/or `citation` property to at least one
-      quote object.
-***/
-
 const quotes = [
   {
     quote: `You know you're in love when you can’t fall asleep because reality is finally better than your dreams.`,
@@ -75,14 +62,7 @@ const quotes = [
   }
 ];
 
-
-/***
-  Create the `getRandomQuote` function to:
-   - generate a random number
-   - use the random number to `return` a random quote object from the
-     `quotes` array.
-***/
-
+// Pulls a quote from the array using a random number between 0 and array.length as an index.
 const getRandomQuote = (quotesArr) => {
   const randomNumber = Math.floor(Math.random() * (quotesArr.length));
   const randomQuote = quotesArr[randomNumber];
@@ -90,27 +70,25 @@ const getRandomQuote = (quotesArr) => {
   return randomQuote;
 }
 
-/***
-  Create the `printQuote` function to:
-   - call the `getRandomQuote` function and assign it to a variable.
-   - use the properties of the quote object stored in the variable to
-     create your HTML string.
-   - use conditionals to make sure the optional properties exist before
-     they are added to the HTML string.
-   - set the `innerHTML` of the `quote-box` div to the HTML string.
-***/
 
+// Puts the random quote and other info on the page.
 const printQuote = () => {
+  // Stop timer so it can start fresh at the bottom.
+  stopTimer();
+
+  // Sets the quote and source on the page since all items them.
   const randomQuote = getRandomQuote(quotes);
   const quoteBox = document.getElementById('quote-box');
   const quote = `<p id="quote" class="quote">${randomQuote.quote}</p>`;
   const source = `<p id="source" class="source">${randomQuote.source}`;
 
+  // If category present.
   if (randomQuote.category) {
     const category = document.getElementById('category');
     category.innerHTML = randomQuote.category;
   }
 
+  // If citation AND year are present.
   if (randomQuote.citation && randomQuote.year) {
     const citation = `<span class="citation">${randomQuote.citation}</span>`;
     const year = `<span class="year">${randomQuote.year}</span>`;
@@ -119,18 +97,20 @@ const printQuote = () => {
     quoteBox.innerHTML = quote + source + '</p>';
   }
 
-  // Starts the timer to refresh page after 20 seconds.
+  // Start timer again, and change background color.
+  startTimer();
   randomizeColor();
-  window.setTimeout(printQuote, 20000);
-
 }
 
-// Changes the background color when quote changes.
+
+// Changes the background color when printQuote is run.
 const randomizeColor = () => {
+  // Separate randomNum function for colors.
   function randomNum() {
     return Math.floor(Math.random() * 256);
   }
 
+  // Makes an rgb out of random red, green and blue.
   let red = randomNum();
   let green = randomNum();
   let blue = randomNum();
@@ -140,20 +120,19 @@ const randomizeColor = () => {
   document.getElementById('loadQuote').background = rgb;
 }
 
-// Changes the quote after 20 seconds.
 
+// Automatically changes the quote after 20 seconds if the button has not been clicked.
+let timer;
+const startTimer = () => {
+  timer = setTimeout(printQuote, 20000);
+}
+// Stops the timer everytime printQuote is called.
+const stopTimer = () => {
+  clearTimeout(timer);
+}
 
-/***
-  When the "Show another quote" button is clicked, the event listener
-  below will be triggered, and it will call, or "invoke", the `printQuote`
-  function. So do not make any changes to the line of code below this
-  comment.
-***/
-
+// On click listener for the new quote button.
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
 
 // Page will open with a quote.
 printQuote();
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
