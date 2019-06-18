@@ -1,4 +1,4 @@
-### Treehouse Techdegree Project 1 - Random Quote Generator
+# Treehouse Techdegree Project 1 - Random Quote Generator
 
 https://rlertola.github.io/a_random_quote_generator-v1/
 
